@@ -1,11 +1,9 @@
-document.addEventListener("DOMContentLoaded", function() {
-    var navbar = document.getElementById("navbar");
+window.onscroll = function() {scrollFunction()};
 
-    window.addEventListener("scroll", function() {
-        if (window.scrollY > 50) {
-            navbar.style.background = "#555"; /* Change background color on scroll */
-        } else {
-            navbar.style.background = "#333";
-        }
-    });
-});
+function scrollFunction() {
+  if (document.body.scrollTop > 80 || document.documentElement.scrollTop > 80) {
+    document.getElementById("navbar").style.backgroundColor = "#111";
+  } else {
+    document.getElementById("navbar").style.backgroundColor = "#333";
+  }
+}
