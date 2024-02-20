@@ -1,0 +1,33 @@
+body{
+  margin:o;
+  font-family:'Arial',sans-serif;
+}
+
+header{
+  position:fixed;
+  top:0;
+  left:0;
+  width:100%;
+  background-color: white;
+  padding:10px;
+}
+
+nav{
+  display:flex;
+  justify-conten:center;
+}
+
+nav ul{
+  list style:none;
+  margin:0;
+  padding;0;
+  display:flex;
+}
+
+nav li{
+  margin:0;
+}
+
+nav a:hover{
+  color:blue;
+}
