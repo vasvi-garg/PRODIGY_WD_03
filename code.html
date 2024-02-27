@@ -1,113 +1,115 @@
-h1 { 
-	color: orangered; 
-	margin-bottom: -5px; 
-} 
-p { 
-	margin-bottom: -10px; 
-} 
-.ui { 
-	display: flex; 
-	flex-direction: column; 
-	align-items: center; 
-} 
-.row { 
-	display: flex; 
-} 
-.cell { 
-	border: none; 
-	width: 80px; 
-	height: 80px; 
-	display: flex; 
-	align-items: center; 
-	justify-content: center; 
-	font-size: 24px; 
-	text-align: center; 
-	cursor: pointer; 
-} 
-.cell:active { 
-	outline: none; 
-} 
-/* 3*3 Grid */
-#b1{ 
-	border-bottom: 1px solid gray; 
-	border-right: 1px solid gray; 
-} 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tic-Tac-Toe</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
 
-#b2 { 
-	border-bottom: 1px solid gray; 
-	border-right: 1px solid gray; 
-	border-left: 1px solid gray; 
-} 
+        #board {
+            display: grid;
+            grid-template-columns: repeat(3, 100px);
+            grid-gap: 5px;
+        }
 
-#b3 { 
-	border-bottom: 1px solid gray; 
-	border-left: 1px solid gray; 
-} 
+        .cell {
+            width: 100px;
+            height: 100px;
+            font-size: 24px;
+            text-align: center;
+            cursor: pointer;
+            border: 2px solid #333;
+            user-select: none;
+        }
+    </style>
+</head>
+<body>
 
-#b4 { 
-	border-top: 1px solid gray; 
-	border-bottom: 1px solid gray; 
-	border-right: 1px solid gray; 
-} 
-	
-#b5 { 
-	border: 1px solid gray; 
-} 
+<div id="board"></div>
 
-#b6 { 
-	border-top: 1px solid gray; 
-	border-bottom: 1px solid gray; 
-	border-left: 1px solid gray; 
-} 
+<script>
+    const board = document.getElementById('board');
+    const cells = [];
+    let currentPlayer = 'X';
+    let gameActive = true;
 
-#b7 { 
-	border-top: 1px solid gray; 
-	border-right: 1px solid gray; 
-} 
+    // Create the Tic-Tac-Toe board
+    for (let i = 0; i < 9; i++) {
+        const cell = document.createElement('div');
+        cell.classList.add('cell');
+        cell.dataset.index = i;
+        cell.addEventListener('click', handleCellClick);
+        cells.push(cell);
+        board.appendChild(cell);
+    }
 
-#b8 { 
-	border-top: 1px solid gray; 
-	border-right: 1px solid gray; 
-	border-left: 1px solid gray; 
-} 
+    // Handle cell click event
+    function handleCellClick() {
+        if (!gameActive) return;
 
-#b9 { 
-	border-top: 1px solid gray; 
-	border-left: 1px solid gray; 
-} 
-/* Reset Button */
-#but { 
-	box-sizing: border-box; 
-	width: 95px; 
-	height: 40px; 
-	border: 1px solid dodgerblue; 
-	margin-left: auto; 
-	border-radius: 8px; 
-	font-family: Verdana, 
-		Geneva, Tahoma, sans-serif; 
+        const index = this.dataset.index;
 
-	background-color: whitesmoke; 
-	color: dodgerblue; 
-	font-size: 20px; 
-	cursor: pointer; 
-} 
+        // Check if the cell is already filled
+        if (cells[index].textContent !== '') return;
 
-/* Player turn space */
-#print { 
-	font-family: Verdana, 
-		Geneva, Tahoma, sans-serif; 
-	color: dodgerblue; 
-	font-size: 20px; 
-} 
+        // Update the cell with the current player's mark
+        cells[index].textContent = currentPlayer;
 
-/* Main Container */
-#main { 
-	text-align: center; 
-} 
+        // Check for a winner or a tie
+        if (checkForWinner() || checkForTie()) {
+            gameActive = false;
+            alert(`${currentPlayer} wins!`);
+        } else {
+            // Switch to the other player
+            currentPlayer = currentPlayer === 'X' ? 'O' : 'X';
+        }
+    }
 
-/* Game Instruction Text */
-#ins { 
-	font-family: Verdana,Geneva, 
-					Tahoma, sans-serif; 
-	color: dodgerblue; 
-}
+    // Check for a winner
+    function checkForWinner() {
+        const winningCombinations = [
+            [0, 1, 2],
+            [3, 4, 5],
+            [6, 7, 8],
+            [0, 3, 6],
+            [1, 4, 7],
+            [2, 5, 8],
+            [0, 4, 8],
+            [2, 4, 6]
+        ];
+
+        for (const combination of winningCombinations) {
+            const [a, b, c] = combination;
+            if (
+                cells[a].textContent !== '' &&
+                cells[a].textContent === cells[b].textContent &&
+                cells[a].textContent === cells[c].textContent
+            ) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    // Check for a tie
+    function checkForTie() {
+        for (const cell of cells) {
+            if (cell.textContent === '') {
+                return false;
+            }
+        }
+        alert('It\'s a tie!');
+        return true;
+    }
+</script>
+
+</body>
+</html>
